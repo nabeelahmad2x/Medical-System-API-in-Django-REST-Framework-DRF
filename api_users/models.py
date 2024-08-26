@@ -28,8 +28,6 @@ class CustomUser(AbstractBaseUser):
 class Doctor(CustomUser):
     designation = models.CharField(max_length=255)
     speciality = models.CharField(max_length=255)
-    is_staff = True
-    is_superuser = False
 
     def __str__(self):
         return f"Doctor(ID: {self.id}, Name: {self.name}, Contact: {self.contact}, Email: {self.email}, Date of Birth: {self.date_of_birth}, Designation: {self.designation}, Speciality: {self.speciality}, Active Status: {self.is_active})"
