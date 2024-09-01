@@ -13,6 +13,7 @@ class DoctorSerializer(serializers.ModelSerializer):
     
         doctor = Doctor(**data)
         # doctor.password = hashed_password.decode()  
+        doctor.is_staff = True
         doctor.set_password(password)        
         doctor.save()
         return doctor
