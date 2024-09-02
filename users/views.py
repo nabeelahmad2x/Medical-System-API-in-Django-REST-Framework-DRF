@@ -5,18 +5,18 @@ from rest_framework import status, viewsets
 
 from .models import Doctor, Patient
 from .serializers import DoctorSerializer, PatientSerializer
-from custom_permission_classes.permissions import IsDoctor, IsPatient
+from custom_permission_classes.permissions import IsDoctor, IsPatient, IsAdmin
 
 
 class DoctorViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsDoctor]
+    permission_classes = [IsDoctor, IsAdmin]
 
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
 
 
 class PatientViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsPatient]
+    permission_classes = [IsPatient, IsAdmin]
 
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
