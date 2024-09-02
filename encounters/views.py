@@ -1,10 +1,8 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
-
-from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from permission_classes.permissions import admin_auth_required
 
-from custom_permission_classes.permissions import admin_auth_required
 from .models import Appointment, Encounter
 from .serializers import AppointmentSerializer, EncounterSerializer
 
