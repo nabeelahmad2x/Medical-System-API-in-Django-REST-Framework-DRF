@@ -5,22 +5,25 @@ from .managers import CustomUserManager
 
 # Person model inheriting AbstractBaseUser..
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    USER_TYPE_CHOICES = (
+        ('Admin', 'Admin'),
+        ('Doctor', 'Doctor'),
+        ('Patient', 'Patient')
+    )
+
     id = models.AutoField(primary_key=True)
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=40)
     contact = models.CharField(unique=True, max_length=20)
     date_of_birth = models.DateField()
     password = models.CharField(max_length=128)
+    user_type = models.CharField(choices=USER_TYPE_CHOICES, blank=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    #has_module_perms = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name', 'contact', 'date_of_birth']
-
-    # class Meta:
-    #     abstract = True
 
     objects = CustomUserManager()
 

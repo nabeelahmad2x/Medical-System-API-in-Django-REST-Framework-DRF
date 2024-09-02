@@ -1,19 +1,22 @@
 from rest_framework import status, viewsets
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from rest_framework_simplejwt.authentication import JWTAuthentication
+# from rest_framework.views import APIView
+# from rest_framework.response import Response
+# from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from .models import Doctor, Patient
 from .serializers import DoctorSerializer, PatientSerializer
+from custom_permission_classes.permissions import IsDoctor, IsPatient, IsAdmin
 
 
 class DoctorViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsDoctor, IsAdmin]
+
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
 
 
 class PatientViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsPatient, IsAdmin]
 
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
