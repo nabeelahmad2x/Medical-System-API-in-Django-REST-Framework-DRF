@@ -19,7 +19,7 @@ class Appointment(models.Model):
 class Encounter(models.Model):
     id = models.AutoField(primary_key=True)
     appointment = models.OneToOneField(Appointment, on_delete=models.CASCADE)
-    #encounter_datetime = durationfield??
+    # encounter_datetime = durationfield??
     notes = models.TextField()
     prescription = models.ForeignKey(Medicine, on_delete=models.CASCADE, default="0")
 
