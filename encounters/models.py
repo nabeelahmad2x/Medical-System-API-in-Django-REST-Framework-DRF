@@ -13,7 +13,8 @@ class Appointment(models.Model):
     status = models.CharField(max_length=20, default='Scheduled')
 
     def __str__(self):
-        return f"Appointment ID: {self.id}, Doctor: {self.doctor}, Patient: {self.patient}, Date & Time: {self.appointment_datetime}, Status: {self.status}"
+        return (f"Appointment ID: {self.id}, Doctor: {self.doctor}, Patient: {self.patient},"
+                f" Date & Time: {self.appointment_datetime}, Status: {self.status}")
 
 
 class Encounter(models.Model):
@@ -24,4 +25,5 @@ class Encounter(models.Model):
     prescription = models.ForeignKey(Medicine, on_delete=models.CASCADE, default="0")
 
     def __str__(self):
-        return f"Encounter ID: {self.id}, Appointment: {self.appointment}, Notes: {self.notes}, Prescription: {self.prescription}"
+        return (f"Encounter ID: {self.id}, Appointment: {self.appointment}, Notes: {self.notes}, "
+                f"Prescription: {self.prescription}")

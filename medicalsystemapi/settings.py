@@ -55,7 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'custom_middlewares.middlewares.TokenModelTrackerMiddleware',
+    'middlewares.middlewares.TokenModelTrackerMiddleware',
 ]
 
 ROOT_URLCONF = 'medicalsystemapi.urls'

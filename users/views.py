@@ -5,7 +5,7 @@ from rest_framework import status, viewsets
 
 from .models import Doctor, Patient
 from .serializers import DoctorSerializer, PatientSerializer
-from custom_permission_classes.permissions import IsDoctor, IsPatient, IsAdmin
+from permission_classes.permissions import IsDoctor, IsPatient, IsAdmin
 
 
 class DoctorViewSet(viewsets.ModelViewSet):
