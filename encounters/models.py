@@ -5,12 +5,19 @@ from medicine.models import Medicine
 
 
 class Appointment(models.Model):
+    APPOINTMENT_STATUS_CHOICES = (
+        ('Scheduled', 'Scheduled'),
+        ('Completed', 'Completed'),
+        ('Cancelled', 'Cancelled'),
+        ('Missed', 'Missed')
+    )
+
     id = models.AutoField(primary_key=True)
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     appointment_datetime = models.DateTimeField(blank=False)
     # appointment_time = models.TimeField(blank=False)
-    status = models.CharField(max_length=20, default='Scheduled')
+    status = models.CharField(max_length=20, choices=APPOINTMENT_STATUS_CHOICES, blank=False, default='Scheduled')
 
     def __str__(self):
         return (f"Appointment ID: {self.id}, Doctor: {self.doctor}, Patient: {self.patient},"
