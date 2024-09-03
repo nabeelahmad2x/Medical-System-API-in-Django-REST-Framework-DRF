@@ -1,4 +1,7 @@
 import jwt
+# from importlib import import_module
+# from django.conf import settings
+
 from django.conf import settings
 from django.utils.deprecation import MiddlewareMixin
 
@@ -14,7 +17,12 @@ class TokenModelTrackerMiddleware(MiddlewareMixin):
         if auth_header:
             token = auth_header[len('bearer '):].strip()
 
+            # this one is for extracting if JWT token is sent in request..
             payload = jwt.decode(jwt=token, key=settings.SECRET_KEY, algorithms=['HS256'])
+
+            # this one is for extracting csrf key sent in request..
+            # SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
+            # payload = SessionStore().decode(token)
 
             user = CustomUser.objects.get(id=payload['user_id'])
 
