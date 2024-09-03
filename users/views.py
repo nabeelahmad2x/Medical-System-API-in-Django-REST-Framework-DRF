@@ -9,14 +9,14 @@ from permission_classes.permissions import IsDoctor, IsPatient, IsAdmin
 
 
 class DoctorViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsDoctor, IsAdmin]
+    permission_classes = [IsDoctor | IsAdmin]
 
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
 
 
 class PatientViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsPatient, IsAdmin]
+    permission_classes = [IsPatient | IsAdmin]
 
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
