@@ -19,6 +19,9 @@ class Appointment(models.Model):
     # appointment_time = models.TimeField(blank=False)
     status = models.CharField(max_length=20, choices=APPOINTMENT_STATUS_CHOICES, blank=False, default='Scheduled')
 
+    class Meta:
+        unique_together = ('doctor', 'patient', 'appointment_datetime')
+
     def __str__(self):
         return (f"Appointment ID: {self.id}, Doctor: {self.doctor}, Patient: {self.patient},"
                 f" Date & Time: {self.appointment_datetime}, Status: {self.status}")
@@ -27,10 +30,12 @@ class Appointment(models.Model):
 class Encounter(models.Model):
     id = models.AutoField(primary_key=True)
     appointment = models.OneToOneField(Appointment, on_delete=models.CASCADE)
-    # encounter_datetime = durationfield??
+    # encounter_datetime = duration field??
     notes = models.TextField()
     prescription = models.ForeignKey(Medicine, on_delete=models.CASCADE, default="0")
 
     def __str__(self):
         return (f"Encounter ID: {self.id}, Appointment: {self.appointment}, Notes: {self.notes}, "
                 f"Prescription: {self.prescription}")
+
+
