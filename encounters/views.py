@@ -3,6 +3,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from permission_classes.permissions import admin_auth_required
 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 from .models import Appointment, Encounter
 from .serializers import AppointmentSerializer, EncounterSerializer
 
@@ -20,7 +23,6 @@ class EncounterViewSet(viewsets.ModelViewSet):
 @api_view(['GET'])
 @admin_auth_required
 def get_encounter_details(request, encounter_id):
-
     encounter = Encounter.objects.get(pk=encounter_id)
 
     if encounter:
@@ -54,3 +56,17 @@ def get_encounter_details(request, encounter_id):
         })
     else:
         return Response({"404: Encounter not Found :D"}, status=status.HTTP_404_NOT_FOUND)
+
+
+# gets called when an encounter is saved, to change appointment status from scheduled to complete.
+@receiver(post_save, sender=Encounter)
+def update_appointment_status(sender, instance, **kwargs):
+    appointment = instance.appointment
+
+    if appointment.status == 'Scheduled':
+        appointment.status = 'Completed'
+        appointment.save()
+        return Response({f'Appointment {appointment.id} status updated to: {appointment.status}'},
+                        status=status.HTTP_200_OK)
+    return Response({'error': 'Appointment is not scheduled or already completed.'},
+                    status=status.HTTP_400_BAD_REQUEST)
