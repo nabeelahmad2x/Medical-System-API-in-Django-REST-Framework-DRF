@@ -17,7 +17,7 @@ class Appointment(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     appointment_datetime = models.DateTimeField(blank=False)
     # appointment_time = models.TimeField(blank=False)
-    status = models.CharField(max_length=20, choices=APPOINTMENT_STATUS_CHOICES, blank=False, default='Scheduled')
+    status = models.CharField(max_length=20, choices=APPOINTMENT_STATUS_CHOICES)
 
     class Meta:
         unique_together = ('doctor', 'patient', 'appointment_datetime')
@@ -37,5 +37,3 @@ class Encounter(models.Model):
     def __str__(self):
         return (f"Encounter ID: {self.id}, Appointment: {self.appointment}, Notes: {self.notes}, "
                 f"Prescription: {self.prescription}")
-
-
