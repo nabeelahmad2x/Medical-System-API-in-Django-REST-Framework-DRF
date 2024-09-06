@@ -27,8 +27,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
 
-    def __str__(self):
-        return self.email
+    # def __str__(self):
+    #     return self.email
 
 
 # Doctor model inherits from CustomUser..
@@ -37,7 +37,8 @@ class Doctor(CustomUser):
     speciality = models.CharField(max_length=255)
 
     def __str__(self):
-        return f"Doctor(ID: {self.id}, Name: {self.name}, Contact: {self.contact}, Email: {self.email}, Date of Birth: {self.date_of_birth}, Designation: {self.designation}, Speciality: {self.speciality}, Active Status: {self.is_active})"
+        return f"Doctor ID: {self.id}, Name: {self.name}"
+        # f", Contact: {self.contact}, Email: {self.email}, Date of Birth: {self.date_of_birth}, Designation: {self.designation}, Speciality: {self.speciality}, Active Status: {self.is_active})")
 
 
 # Patient model inherits from CustomUser..
@@ -46,4 +47,6 @@ class Patient(CustomUser):
     disease_stage = models.CharField(max_length=255)
 
     def __str__(self):
-        return f"Patient(ID: {self.id}, Name: {self.name}, Contact: {self.contact}, Email: {self.email}, Date of Birth: {self.date_of_birth}, Blood Group: {self.blood_group}, Disease Stage: {self.disease_stage})"
+        return f"Patient ID: {self.id}, Name: {self.name}"
+
+        # f", Contact: {self.contact}, Email: {self.email}, Date of Birth: {self.date_of_birth}, Blood Group: {self.blood_group}, Disease Stage: {self.disease_stage})")
