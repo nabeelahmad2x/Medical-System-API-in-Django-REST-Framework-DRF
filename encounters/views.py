@@ -16,16 +16,44 @@ class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
 
-
     # searchfield
     # filter function
     # implement all 5 methods of a viewset..
+    def list(self, request, *args, **kwargs):
+        queryset = Appointment.objects.all()
+        serializer = AppointmentSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, *args, **kwargs):
+        queryset = Appointment.objects.all()
+        serializer = AppointmentSerializer(queryset, many=True)
+        return Response(serializer.data)
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def update(self, request, *args, **kwargs):
+        queryset = Appointment.objects.all()
+        serializer = self.get_serializer(queryset, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def partial_update(self, request, *args, **kwargs):
+        queryset = Appointment.objects.all()
+        serializer = self.get_serializer(queryset, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+    def destroy(self, request, *args, **kwargs):
+        queryset = Appointment.objects.all()
+        serializer = self.get_serializer(queryset, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.delete()
+        return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
     @action(detail=True, methods=['get'])
     def cancel_appointment(self, request, *args, **kwargs):
@@ -84,6 +112,9 @@ class EncounterViewSet(viewsets.ModelViewSet):
 
 
 # gets called when an encounter is saved, to change appointment status from scheduled to complete.
+
+# this function receives signal when a new encounter is saved
+# and then updates appointment status from scheduled to complete
 @receiver(post_save, sender=Encounter)
 def update_appointment_status(sender, instance, **kwargs):
     appointment = instance.appointment
